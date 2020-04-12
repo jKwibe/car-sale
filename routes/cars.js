@@ -2,10 +2,16 @@
 const express = require('express');
 const router = express.Router();
 
-const {indexController} = require('../controllers/cars');
+const {
+  getAllCars,
+  getSingleCar
+} = require('../controllers/cars');
 
 router.route('/')
-        .get(indexController)
+        .get(getAllCars)
+
+router.route('/:id')
+      .get(getSingleCar)
 
 
 module.exports = router;
