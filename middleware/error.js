@@ -9,6 +9,14 @@ const ErrorRes = require('../utilities/error');
     console.log(error);
     // console.log(err.stack.red.bold);
 
+    if (err.name == 'CastError'){
+      error = new ErrorRes(`The resource id ${err.value} is not valid`, 400);
+    }
+
+    if (err.name == 'ValidationError'){
+      message = Object.values(err.errors).map(val => val.message)
+      error = new ErrorRes(message, 400);
+    }
     
     res.status(error.statusCode || 500).json({
         success: false,
