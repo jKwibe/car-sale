@@ -6,6 +6,8 @@ const colors = require('colors');
 
 const app     = express();
 
+const errorHandler = require('./middleware/error')
+
 dotenv.config({path: './config/config.env'});
 
 //import the database connection
@@ -25,7 +27,8 @@ if(process.env.NODE_ENV === 'development'){
 
 app.use(carsRoutes);
 
-
+//Error Handler
+app.use(errorHandler)
 
 app.listen(PORT, ()=>{
     console.log(`Server connected on ${process.env.NODE_ENV} on port ${PORT}`.yellow.inverse);

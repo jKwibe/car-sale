@@ -25,7 +25,7 @@ exports.getSingleCar = async (req, res, next) => {
   try {
       const car = await Cars.findById(req.params.id)
       if (!car){
-      return res.status(400).json({ success: false})
+      return next(new Error(`Car not found with the id ${req.params.id}`))
       }
       res.status(200).json({
         success: true,
@@ -33,7 +33,7 @@ exports.getSingleCar = async (req, res, next) => {
       });
     
   } catch (error) {
-    res.status(400).json({ success: false });
+    next(error)
   }
 };
 
@@ -54,10 +54,7 @@ exports.addCar = async (req, res, next) => {
     });
   
 } catch (error) {
-  res.status(400).json({
-    success: false,
-    error: error.message
-  })
+ next(error)
 }
 };
 
@@ -71,12 +68,12 @@ exports.deleteCar = async(req, res, next)=>{
   const car = await  Cars.findById(req.params.id);
 
   if(!car){
-    return res.status(400).json({success: false, message : 'invalid Id'});
+    return next(new Error(`Car not found with the id ${req.params.id}`))
   }
     car.remove()
     res.status(200).json({ success: true})
   } catch (error) {
-    res.status(400).json({success: false});
+   next(error)
   }
 
 }
@@ -93,10 +90,10 @@ exports.updateCar = async (req, res, next) =>{
     })
 
     if (!car){
-      return res.status(400).json({success: false, message: "No car with the id"});
+      return next(new Error(`Car not found with the id ${req.params.id}`))
     }
     res.status(200).json({success: true})
   } catch (error) {
-    res.status(400).json({success: false});
+    next(error)
   }
 }
