@@ -1,5 +1,6 @@
 const Cars = require('../models/Cars');
 
+const ErrorRes = require('../utilities/error');
 
 // @desc    Fetch all cars
 // @desc    GET /api/v1/car-sales/
@@ -25,7 +26,7 @@ exports.getSingleCar = async (req, res, next) => {
   try {
       const car = await Cars.findById(req.params.id)
       if (!car){
-      return next(new Error(`Car not found with the id ${req.params.id}`))
+      return next(new ErrorRes(`Car not found with the id ${req.params.id}`, 400))
       }
       res.status(200).json({
         success: true,
@@ -68,7 +69,7 @@ exports.deleteCar = async(req, res, next)=>{
   const car = await  Cars.findById(req.params.id);
 
   if(!car){
-    return next(new Error(`Car not found with the id ${req.params.id}`))
+    return next(new ErrorRes(`Car not found with the id ${req.params.id}`, 400))
   }
     car.remove()
     res.status(200).json({ success: true})
@@ -90,7 +91,7 @@ exports.updateCar = async (req, res, next) =>{
     })
 
     if (!car){
-      return next(new Error(`Car not found with the id ${req.params.id}`))
+      return next(new ErrorRes(`Car not found with the id ${req.params.id}`, 400))
     }
     res.status(200).json({success: true})
   } catch (error) {
