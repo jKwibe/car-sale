@@ -14,6 +14,7 @@ const databaseConnection = require('./config/db');
 const carsRoutes = require('./routes/cars');
 
 const PORT = process.env.PORT || 3000;
+app.use(express.json());
 
 databaseConnection();
 
