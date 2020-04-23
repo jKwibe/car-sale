@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler');
 
-const User = require('../models/Users');
+const Users = require('../models/Users');
 const ErrorRes = require('../utilities/error')
 
 // @desc    Register User
@@ -10,7 +10,7 @@ const ErrorRes = require('../utilities/error')
 exports.register = asyncHandler (async (req, res, next)=>{
   const {firstName, lastName, userName, email, phone, password} = req.body;
 
-  const user = await User.create({
+  const user = await Users.create({
     firstName,
     lastName,
     email,
