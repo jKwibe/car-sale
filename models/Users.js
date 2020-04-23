@@ -49,4 +49,4 @@ const userSchema = new Schema({
 
 userSchema.plugin(timestamps);
 
-module.exports = userSchema;
+module.exports = mongoose.model('user', userSchema);
