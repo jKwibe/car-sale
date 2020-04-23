@@ -3,6 +3,11 @@
 const mongoose = require('mongoose');
 const timestamps = require('mongoose-timestamps');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+
+dotenv.config({path: '../config/config.env'});
+
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -43,8 +48,8 @@ const userSchema = new Schema({
   password: {
     type: String,
     required:[true, 'Must have a password'],
-    select: false,
-    minlength: [6, 'Password must have more than 6 chatacters']
+    minlength: [6, 'Password must have more than 6 chatacters'],
+    select: false
   }
 
 });
@@ -62,5 +67,13 @@ userSchema.pre('save', async function(next){
 userSchema.methods.matchPassword = async function(enteredPassword){
   return await bcrypt.compare(enteredPassword, this.password)
 };
+
+// getting the jwt token
+userSchema.methods.getJwtToken = function(){
+  // console.log(typeof process.env.JWT_SECRET);
+  return jwt.sign({id: this._id}, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE
+  });
+}
 
 module.exports = mongoose.model('user', userSchema);
