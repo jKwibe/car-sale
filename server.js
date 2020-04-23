@@ -15,8 +15,9 @@ dotenv.config({path: './config/config.env'});
 //import the database connection
 const databaseConnection = require('./config/db');
 
-const carsRoutes =  require('./routes/cars');
+const carsRoutes  = require('./routes/cars');
 const adminRoutes = require('./routes/admin');
+const authRoutes  = require('./routes/auth');
 
 const PORT = process.env.PORT;
 
@@ -32,6 +33,7 @@ if(process.env.NODE_ENV === 'development'){
 
 app.use('/api/v1/cars',carsRoutes);
 app.use('/api/v1/admin',adminRoutes);
+app.use('/api/v1/my-carmax',authRoutes);
 
 //Error Handler
 app.use(errorHandler)
