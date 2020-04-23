@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler');
 
-const Users = require('../models/Users');
+const Users = require('../models/users/Users');
 const ErrorRes = require('../utilities/error')
 
 // @desc    Register User
@@ -41,7 +41,7 @@ exports.login = asyncHandler(async (req, res, next)=>{
   }
 
   // Find the user with the email
-  const user = await Users.findOne({email: email}).select('password');
+  const user = await Users.findOne({email}).select('password');
 // console.log(user);
 
   // check if the user exists
@@ -61,7 +61,20 @@ exports.login = asyncHandler(async (req, res, next)=>{
   const token = user.getJwtToken()
   res.status(200).json({
     success: true,
-    message: 'logged in',
     token
   })
 });
+
+// @desc    User page
+// @desc    GET /api/v1/my-carmax/user
+// @access  Private
+
+exports.loggedUser = asyncHandler(async(req, res, next)=>{
+ const user = await Users.findById(req.user.id);
+
+ res.status(200).json({
+   success: true,
+   message: 'logged in',
+   data: user
+ })
+})
