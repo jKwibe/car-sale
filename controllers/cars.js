@@ -46,10 +46,10 @@ exports.addCar = asyncHandler(async (req, res, next) => {
   // request the body for content
   const carInfo = req.body;
 
-    const cars = await Cars.create(carInfo);
+    const car = await Cars.create(carInfo);
     res.status(201).json({
       success: true,
-      data: cars
+      data: car
     });
 
 });
@@ -66,7 +66,10 @@ exports.deleteCar = asyncHandler(async(req, res, next)=>{
     return next(new ErrorRes(`Car not found with the id ${req.params.id}`, 400))
   }
     car.remove()
-    res.status(200).json({ success: true});
+    res.status(200).json({
+      success: true,
+      data: {}
+    });
 });
 
 // @desc    Update a car
@@ -74,17 +77,18 @@ exports.deleteCar = asyncHandler(async(req, res, next)=>{
 // @access  Private
 
 exports.updateCar = asyncHandler(async (req, res, next) =>{
-  try {
+
     const car = await Cars.findByIdAndUpdate(req.params.id, req.body, {
       runValidators: true,
       new: true
-    })
+    });
 
     if (!car){
       return next(new ErrorRes(`Car not found with the id ${req.params.id}`, 400))
     }
-    res.status(200).json({success: true})
-  } catch (error) {
-    next(error)
-  }
+    res.status(200).json({
+      success: true,
+      data: car
+    });
+
 });
