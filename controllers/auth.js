@@ -19,9 +19,12 @@ exports.register = asyncHandler (async (req, res, next)=>{
     password
   });
 
+  const token = user.getJwtToken()
+
   res.status(201).json({
     success: true,
-    data: user
+    message: 'signed up',
+    token
   });
 });
 
@@ -55,9 +58,10 @@ exports.login = asyncHandler(async (req, res, next)=>{
   if(!isMatch){
     return  next (new ErrorRes(`provide the correct email or password`, 401));
   }
-
+  const token = user.getJwtToken()
   res.status(200).json({
     success: true,
-    message: 'logged in'
+    message: 'logged in',
+    token
   })
 });
