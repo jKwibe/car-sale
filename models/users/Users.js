@@ -32,6 +32,15 @@ const userSchema = new Schema({
       'Username should not have spaces'
     ]
   },
+  role:{
+    type: String,
+    required: true,
+    enum: [
+      'User',
+      'Admin'
+    ],
+    default: 'User'
+  },
   email:{
     type: String,
     required: [true, 'Please enter your email'],
