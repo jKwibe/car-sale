@@ -2,6 +2,8 @@
 const express = require('express');
 const router = express.Router();
 
+const {protectedRoutes, authorizeRole} = require('../middleware/auth');
+
 const {
  addCar,
  updateCar,
@@ -9,11 +11,12 @@ const {
 } = require('../controllers/cars');
 
 router.route('/')
-      .post(addCar);
+      .post(protectedRoutes, authorizeRole('Admin'), addCar)
+      .get();
 
 
 router.route('/:id')
-      .delete(deleteCar)
-      .put(updateCar);
+      .delete(protectedRoutes, authorizeRole('Admin'), deleteCar)
+      .put(protectedRoutes, authorizeRole('Admin'), updateCar);
 
 module.exports = router;
