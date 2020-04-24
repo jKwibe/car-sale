@@ -25,11 +25,23 @@ exports.protectedRoutes = asyncHandler(async (req, res, next)=>{
  // extract payload from the jwt token
  try {
    const decoded = await jwt.verify(token, process.env.JWT_SECRET);
-   console.log(decoded)
+   // console.log(decoded)
     req.user = await Users.findById(decoded.id);
-    // console.log(req.user);
+    // console.log(req.user.role);
     next();
  } catch (error) {
      next(new ErrorRes('Not aurhorized', 401))
  }
-})
+});
+
+// Authorize certain routes based on certain user roles
+
+exports.authorizeRole = (role) => {
+  return (req, res, next) =>{
+    // console.log(role);
+    if(role !== req.user.role){
+      return next(new ErrorRes(`${req.user.role} has been forbidden to use this route`, 403));
+    }
+    next();
+  }
+}
