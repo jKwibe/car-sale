@@ -19,6 +19,7 @@ const databaseConnection = require('./config/db');
 const carsRoutes  = require('./routes/cars');
 const adminRoutes = require('./routes/admin');
 const authRoutes  = require('./routes/auth');
+const reviewRoutes  = require('./routes/reviews');
 
 const PORT = process.env.PORT;
 
@@ -37,6 +38,7 @@ databaseConnection();
 app.use('/api/v1/cars',carsRoutes);
 app.use('/api/v1/admin',adminRoutes);
 app.use('/api/v1/my-carmax',authRoutes);
+app.use('/api/v1/review',reviewRoutes);
 
 //Error Handler
 app.use(errorHandler)
