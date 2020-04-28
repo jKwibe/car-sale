@@ -11,8 +11,19 @@ exports.createReview = asyncHandler(async(req, res, next)=>{
   // get the user-id from the req.user.id from the token
   req.body.user = req.user.id;
 
+  const car = req.params.carId
+  // console.log(car);
+  // check if the car exists
+  if(!car){
+    return next(new ErrorRes(`Car does not exist with id ${req.params.carId}`, 400))
+  }
+
+
   // fetch information from the body
-  const review = await Reviews.create(req.body);
+  const review = await Reviews.create({
+    ...req.body,
+    car
+  });
 
   // add to database
   res.status(201).json({
@@ -58,7 +69,7 @@ res.status(200).json({
 });
 
 // @desc    Create a review
-// @desc    DELETE /api/v1/user/review/:id => review id
+// @desc    DELETE /api/v1/user/review/:carId/:id => review id
 // @access  Private by User
 
 exports.deleteReview = asyncHandler(async(req, res, next)=>{
