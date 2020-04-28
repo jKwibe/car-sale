@@ -3,11 +3,11 @@ const ErrorRes = require('../utilities/error');
  const errorHandler = (err, req, res, next) => {
 // create a variable that inherits all properties of err with spread operators
   let error = {...err};
-
+if (process.env.NODE_ENV==='development'){
+  console.log(error);
+  console.log(err.stack.red.bold);
+}
   error.message = err.message;
-
-    console.log(error);
-    console.log(err.stack.red.bold);
 
     if (err.name == 'CastError'){
       error = new ErrorRes(`The resource id ${err.value} is not valid`, 400);
