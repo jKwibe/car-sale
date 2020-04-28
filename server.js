@@ -4,6 +4,7 @@ const dotenv  = require('dotenv');
 const logger  = require('morgan');
 const colors = require('colors');
 const helmet = require('helmet');
+const cors = require('cors');
 
 const app     = express();
 
@@ -23,13 +24,15 @@ const PORT = process.env.PORT;
 
 app.use(express.json());
 app.use(helmet());
+app.use(cors());
 
 databaseConnection();
 
 
-if(process.env.NODE_ENV === 'development'){
-    app.use(logger('dev'))
-}
+(process.env.NODE_ENV === 'development')?
+    app.use(logger('dev')):
+    app.use(logger('combined'));
+
 
 app.use('/api/v1/cars',carsRoutes);
 app.use('/api/v1/admin',adminRoutes);
