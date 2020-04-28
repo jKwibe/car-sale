@@ -36,6 +36,13 @@ exports.updateReview = asyncHandler(async(req, res, next)=>{
    return next(new ErrorRes('Review doesnt exist the review', 401));
  }
 
+ // Update only if the correct user is logged inspect
+ //Check whether the userid in the schema is equal to req.user
+ // console.log( review.user.toString()===req.user.id);
+
+ if (review.user.toString() !== req.user.id){
+   return next(new ErrorRes(`User not authorized to make changes`, 401));
+ }
 
  // update the review
  review = await Reviews.findByIdAndUpdate(req.params.id, req.body,{
