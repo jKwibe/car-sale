@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 const timestamps = require('mongoose-timestamps');
 
+
 const Schema = mongoose.Schema;
 
 const reviewSchema = new Schema({
@@ -18,8 +19,13 @@ const reviewSchema = new Schema({
   user:{
     type: mongoose.Schema.ObjectId,
     ref: 'user'
+  },
+  car:{
+    type: mongoose.Schema.ObjectId,
+    ref: 'car'
   }
 });
 reviewSchema.plugin(timestamps);
+
 
 module.exports = mongoose.model('review', reviewSchema);
