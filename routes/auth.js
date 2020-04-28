@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const {protectedRoutes, authorizeRole} = require('../middleware/auth');
+const { protectedRoutes, authorizeRole } = require('../middleware/auth');
+const { createReview } = require('../controllers/reviews');
 
 const {
   register,
@@ -15,6 +16,9 @@ router.route('/signin')
       .post(login);
 
 router.route('/user')
-      .get(protectedRoutes, authorizeRole('User'), loggedUser)
+      .get(protectedRoutes, authorizeRole('User'), loggedUser);
+
+router.route('/reviews')
+      .post(protectedRoutes, authorizeRole('User'), createReview)
 
 module.exports = router;
