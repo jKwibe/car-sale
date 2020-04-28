@@ -1,7 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const { protectedRoutes, authorizeRole } = require('../middleware/auth');
-const { createReview } = require('../controllers/reviews');
+const {
+  createReview,
+  updateReview ,
+  deleteReview
+} = require('../controllers/reviews');
 
 const {
   register,
@@ -20,5 +24,9 @@ router.route('/user')
 
 router.route('/reviews')
       .post(protectedRoutes, authorizeRole('User'), createReview)
+
+router.route('/reviews/:id')
+      .put(protectedRoutes, authorizeRole('User'), updateReview)
+      .delete(protectedRoutes, authorizeRole('User'), deleteReview)
 
 module.exports = router;
