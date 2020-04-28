@@ -56,3 +56,33 @@ res.status(200).json({
 })
 
 });
+
+// @desc    Create a review
+// @desc    DELETE /api/v1/user/review/:id => review id
+// @access  Private by User
+
+exports.deleteReview = asyncHandler(async(req, res, next)=>{
+
+ // get the review using the find by id
+ let review = await Reviews.findById(req.params.id);
+ // check whether the review exists
+ if(!review){
+   return next(new ErrorRes('Review doesn\'t exist the review', 401));
+ }
+
+ // delete only if the correct user is logged inspect
+ //Check whether the userid in the schema is equal to req.user
+
+ if (review.user.toString() !== req.user.id){
+   return next(new ErrorRes(`User not authorized to make changes`, 401));
+ }
+
+ // delete the review
+ review.remove();
+
+res.status(200).json({
+  success: true,
+  data: {}
+})
+
+});
