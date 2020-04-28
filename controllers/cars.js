@@ -40,7 +40,7 @@ exports.getSingleCar = asyncHandler(async (req, res, next) => {
 
 // @desc    Add a car
 // @desc    POST /api/v1/admin/car
-// @access  Private
+// @access  Private by the Administrator only
 
 exports.addCar = asyncHandler(async (req, res, next) => {
   // request the body for content
@@ -56,7 +56,7 @@ exports.addCar = asyncHandler(async (req, res, next) => {
 
 // @desc    Delete a car
 // @desc    POST /api/v1/admin/car
-// @access  Private
+// @access  Private by the Administrator only
 
 exports.deleteCar = asyncHandler(async(req, res, next)=>{
 
@@ -74,7 +74,7 @@ exports.deleteCar = asyncHandler(async(req, res, next)=>{
 
 // @desc    Update a car
 // @desc    PUT /api/v1/admin/car
-// @access  Private
+// @access  Private by the Administrator only
 
 exports.updateCar = asyncHandler(async (req, res, next) =>{
 
